@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title></title>
 
+  <script src="https://cdn.firebase.com/js/client/2.2.1/firebase.js"></script>
+
   <!-- Bootstrap -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -52,13 +54,26 @@
   </nav>
 
   <section id="tictactoe">
-    <div class="container-fluid">
+    <div class="container">
       <div class="row">
-        <div class="col-sm-12" id="game-layout">
-          <div>
-            <p>
-              XOXOXO ;)
-            </p>
+        <div class="col-sm-6" id="game-layout">
+          <div id="stage"></div>
+        </div>
+        <div class="col-sm-6" id="game-box">
+          <!-- firebase chat -->
+          <div class="example-chat l-demo-container">
+            <header>Chat</header>
+
+            <div class='example-chat-toolbar'>
+              <label for="nameInput">Username:</label>
+              <input type='text' id='nameInput' placeholder='enter a username...'>
+            </div>
+
+            <ul id='example-messages' class="example-chat-messages"></ul>
+
+            <footer>
+              <input type='text' id='messageInput'  placeholder='Type a message...'>
+            </footer>
           </div>
         </div>
       </div>

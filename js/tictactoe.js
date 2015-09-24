@@ -1,97 +1,96 @@
-var player = {
-  money: 100,
-  win: 0,
-  lose: 0
-};
+var stage = document.querySelector("#stage");
 
-var coin = {
-  coinSide: 0, //0 for head, 1 for tails
-  head: function (lol) {
-    coinSide = 0;
-    this.flip(coinSide);
-    $('#money').html("Money: " + player.money);
-    $('#win').html("Won: " + player.win);
-    $('#lose').html("Loss: " + player.lose);
-  },
-  tail: function (lol) {
-    this.coinSide = 1;
-    this.flip(coinSide);
-    $('#money').html("Money: " + player.money);
-    $('#win').html("Won: " + player.win);
-    $('#lose').html("Loss: " + player.lose);
-  },
-  flip: function (side) {
-    var flipCoin = Math.floor(Math.random() * 2);
-    if (side == flipCoin) {
-      player.money += 100;
-      player.win += 1;
-      $.notify({
-        // options
-        message: 'You won $100!',
-      },{
-        // settings
-        newest_on_top: true,
-        type: "success",
-        placement: {
-          from: "bottom",
-          align: "right"
-        },
-        delay: 1000,
-        timer: 500,
-        animate: {
-          enter: 'animated slideInRight',
-          exit: 'animated fadeOutUp'
-        }
-      });
-    } else {
-      player.money -= 100;
-      player.lose += 1;
-      $.notify({
-      	// options
-      	message: 'You lose $100',
-      },{
-      	// settings
-        newest_on_top: true,
-      	type: "danger",
-      	placement: {
-      		from: "bottom",
-      		align: "right"
-      	},
-      	delay: 1000,
-      	timer: 500,
-      	animate: {
-      		enter: 'animated slideInRight',
-      		exit: 'animated fadeOutUp'
-        }
-      });
+//the 2d array that defines the board
+var board = [];
+
+//the size of each cell
+var SIZE = 100;
+
+//the space between each cell
+var SPACE = 10;
+
+//display the array
+var ROWS = 3; //user select size
+var COLUMNS = 3; //user select size
+
+for(var row = 0; row < ROWS; row++){
+    for(var column = 0; column < COLUMNS; column++){
+        //create a div HTML element called cell
+        var cell = document.createElement("div");
+
+        //set its CSS class to cell
+        cell.setAttribute("class", "cell");
+
+        //add the div HTML element to the stage
+        stage.appendChild(cell);
+
+        //position the cell
+        cell.style.top = row * (SIZE + SPACE) + "px";
+        cell.style.left = column * (SIZE + SPACE) + "px";
+        //handle click
+        cell.addEventListener("click", clickHandler, false);
     }
+}
+
+function clickHandler(){
+    this.style.backgroundColor = "rgba(236, 85, 85, 0.80)";
+    $.notify({
+      // options
+      message: "Cell " +  + "selected.",
+    },{
+      // settings
+      newest_on_top: true,
+      type: "danger",
+      placement: {
+        from: "bottom",
+        align: "right"
+      },
+      delay: 50,
+      timer: 1500,
+      animate: {
+        enter: 'animated slideInRight',
+        exit: 'animated fadeOutUp'
+      }
+    });
+}
+
+// CREATE A REFERENCE TO FIREBASE
+var messagesRef = new Firebase('https://mw5padi3kor.firebaseio-demo.com/');
+
+// REGISTER DOM ELEMENTS
+var messageField = $('#messageInput');
+var nameField = $('#nameInput');
+var messageList = $('#example-messages');
+
+// LISTEN FOR KEYPRESS EVENT
+messageField.keypress(function (e) {
+  if (e.keyCode == 13) {
+    //FIELD VALUES
+    var username = nameField.val();
+    var message = messageField.val();
+
+    //SAVE DATA TO FIREBASE AND EMPTY FIELD
+    messagesRef.push({name:username, text:message});
+    messageField.val('');
   }
-};
+});
 
-var dice = {
-  human: 0,
-  bot: 0,
-  roll: function () {
-    var rollDice = Math.floor(Math.random() * 6);
+// Add a callback that is triggered for each chat message.
+messagesRef.limitToLast(10).on('child_added', function (snapshot) {
+  //GET DATA
+  var data = snapshot.val();
+  var username = data.name || "anonymous";
+  var message = data.text;
 
-  },
-  determineWinner: function () {
+  //CREATE ELEMENTS MESSAGE & SANITIZE TEXT
+  var messageElement = $("<li>");
+  var nameElement = $("<strong class='example-chat-username'></strong>")
+  nameElement.text(username);
+  messageElement.text(message).prepend(nameElement);
 
-    if (human > bot) {
-      console.log("Human wins.");
-    } else {
-      console.log("Bot wins.");
-    }
-  }
-};
+  //ADD MESSAGE
+  messageList.append(messageElement)
 
-var object = {
-  add: function () {
-
-  }
-};
-
-var array = [];
-
-
-object.add
+  //SCROLL TO BOTTOM OF MESSAGE LIST
+  messageList[0].scrollTop = messageList[0].scrollHeight;
+});
