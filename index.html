@@ -54,25 +54,23 @@
   </nav>
 
   <section id="tictactoe">
-    <div class="container">
+    <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-6" id="game-layout">
+        <div class="col-sm-7" id="game-layout">
           <div id="stage"></div>
         </div>
-        <div class="col-sm-6" id="game-box">
+        <div class="col-sm-5" id="game-chat">
           <!-- firebase chat -->
-          <div class="example-chat l-demo-container">
-            <header>Chat</header>
+          <div class="example-chat">
 
             <div class='example-chat-toolbar'>
-              <label for="nameInput">Username:</label>
-              <input type='text' id='nameInput' placeholder='enter a username...'>
+              <input type='text' id='nameInput' placeholder="Enter your favorite character">
             </div>
 
             <ul id='example-messages' class="example-chat-messages"></ul>
 
             <footer>
-              <input type='text' id='messageInput'  placeholder='Type a message...'>
+              <input type='text' id='messageInput'  placeholder="Type your best taunt message">
             </footer>
           </div>
         </div>

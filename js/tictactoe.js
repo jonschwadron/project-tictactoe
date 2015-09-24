@@ -9,7 +9,7 @@ var SIZE = 100;
 //the space between each cell
 var SPACE = 10;
 
-//display the array
+//board config
 var ROWS = 3; //user select size
 var COLUMNS = 3; //user select size
 
@@ -27,6 +27,7 @@ for(var row = 0; row < ROWS; row++){
         //position the cell
         cell.style.top = row * (SIZE + SPACE) + "px";
         cell.style.left = column * (SIZE + SPACE) + "px";
+
         //handle click
         cell.addEventListener("click", clickHandler, false);
     }
@@ -89,7 +90,7 @@ messagesRef.limitToLast(10).on('child_added', function (snapshot) {
   messageElement.text(message).prepend(nameElement);
 
   //ADD MESSAGE
-  messageList.append(messageElement)
+  messageList.append(messageElement);
 
   //SCROLL TO BOTTOM OF MESSAGE LIST
   messageList[0].scrollTop = messageList[0].scrollHeight;
