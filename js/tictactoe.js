@@ -4,10 +4,10 @@ var stage = document.querySelector("#stage");
 var board = [];
 
 //the size of each cell
-var SIZE = 100;
+var SIZE = 200;
 
 //the space between each cell
-var SPACE = 10;
+var SPACE = 1;
 
 //board config
 var ROWS = 3; //user select size
@@ -37,16 +37,16 @@ function clickHandler(){
     this.style.backgroundColor = "rgba(236, 85, 85, 0.80)";
     $.notify({
       // options
-      message: "Cell " +  + "selected.",
+      message: "Cell selected.",
     },{
       // settings
       newest_on_top: true,
-      type: "danger",
+      type: 'success',
       placement: {
         from: "bottom",
         align: "right"
       },
-      delay: 50,
+      delay: 2000,
       timer: 1500,
       animate: {
         enter: 'animated slideInRight',
