@@ -5,6 +5,12 @@ var board = [[0,0,0],
              [0,0,0],
              [0,0,0]];
 
+//board.length is row
+//board[0].length is column
+//cell 1,3:
+//board.length 1
+//board[0].length 3
+
 var player;
 var endGame;
 
@@ -34,91 +40,120 @@ function init(){
   player ="X";
   endGame = false;
   for(var row = 0; row < ROWS; row++){
-      for(var column = 0; column < COLUMNS; column++){
-          //create a div HTML element called cell
-          var cellSelected = document.createElement("span");
+    for(var column = 0; column < COLUMNS; column++){
+        //create a div HTML element called cell
+        var cellSelected = document.createElement("span");
 
-          //set its CSS class to cell
-          cellSelected.setAttribute("class", "cellSelected");
-          cellSelected.setAttribute("onClick", ("setCell(" + (row+1) + "," + (column+1) + ")"));
+        //set its CSS class to cell
+        cellSelected.setAttribute("class", "cellSelected");
+        cellSelected.setAttribute("onClick", ("setCell(" + (row+1) + "," + (column+1) + ")"));
 
-          //add the div HTML element to the stage
-          stage.appendChild(cellSelected);
+        //add the div HTML element to the stage
+        stage.appendChild(cellSelected);
 
-          //position the cell
-          cellSelected.style.top = row * (SIZE + SPACE) + "px";
-          cellSelected.style.left = column * (SIZE + SPACE) + "px";
+        //position the cell
+        cellSelected.style.top = row * (SIZE + SPACE) + "px";
+        cellSelected.style.left = column * (SIZE + SPACE) + "px";
 
-          //handle click
-          cellSelected.addEventListener("click", clickHandler, false);
-      }
+        //handle click
+        cellSelected.addEventListener("click", clickHandler, false);
+    }
   }
 }
 
 function clickHandler(cell){
-    this.style.backgroundColor = "rgba(236, 85, 85, 0.80)";
-    $.notify({
-      // options
-      message: "Cell selected.",
-    },{
-      // settings
-      newest_on_top: true,
-      type: 'success',
-      placement: {
-        from: "bottom",
-        align: "right"
-      },
-      delay: 2000,
-      timer: 1500,
-      animate: {
-        enter: 'animated slideInRight',
-        exit: 'animated fadeOutUp'
-      }
-    });
+    if (player == "X") {
+      this.style.backgroundColor = "rgba(95, 128, 226, 0.8)";
+    } else if (player == "O") {
+      this.style.backgroundColor = "rgba(236, 85, 85, 0.80)";
+    }
 }
 
 function changePlayer(){
-  if (player == "X") {
+  if (&& player == "X") {
     player = "O";
+    //add an html text: O's turn
   } else {
     player = "X";
+    //add an html text: X's turn
   }
 }
 
 function setCell(cellRow,cellColumn) {
+  board[cellRow-1][cellColumn-1] = player;
+  console.log(board);
   console.log("Player: " + player, "Cell: " + cellRow + "," + cellColumn);
+  checkState();
   changePlayer();
-  board[0] = player;
 }
 
 //if x played 3 moves, check for winning play
+// var win = [[0,1,2], //0
+//            [3,4,5], //1
+//            [6,7,8], //2
+//            [0,3,6], //3
+//            [1,4,7],
+//            [2,5,8],
+//            [0,4,8],
+//            [6,4,2]];
+
 
 function checkState() {
-  $.each(win, function(index,value) {
-    if  ( board[win[index][0]] == board[win[index][1]] &&
-          board[win[index][0]] == board[win[index][2]] &&
-          board[win[index][0]] == board[win[index][3]]) {
-       endGame = true;
-       $.notify({
-         // options
-         message: "WIN",
-       },{
-         // settings
-         newest_on_top: true,
-         type: 'success',
-         placement: {
-           from: "bottom",
-           align: "right"
-         },
-         delay: 2000,
-         timer: 1500,
-         animate: {
-           enter: 'animated slideInRight',
-           exit: 'animated fadeOutUp'
-         }
-       });
-     }
-   });
+  if (board[0][0] == "X" && // [X,X,X]
+      board[0][1] == "X" && // [0,0,0]
+      board[0][2] == "X" || // [0,0,0]
+
+      board[1][0] == "X" && // [0,0,0]
+      board[1][1] == "X" && // [X,X,X]
+      board[1][2] == "X" || // [0,0,0]
+
+      board[2][0] == "X" && // [0,0,0]
+      board[2][1] == "X" && // [0,0,0]
+      board[2][2] == "X" || // [X,X,X]
+
+      board[0][0] == "X" && // [X,0,0]
+      board[1][0] == "X" && // [X,0,0]
+      board[2][0] == "X" || // [X,0,0]
+
+      board[0][1] == "X" && // [0,X,0]
+      board[1][1] == "X" && // [0,X,0]
+      board[2][1] == "X" || // [0,X,0]
+
+      board[0][2] == "X" && // [0,0,X]
+      board[1][2] == "X" && // [0,0,X]
+      board[2][2] == "X" || // [0,0,X]
+
+      board[0][0] == "X" && // [X,0,0]
+      board[1][1] == "X" && // [0,X,0]
+      board[2][2] == "X" || // [0,0,X]
+
+      board[0][2] == "X" && // [0,0,X]
+      board[1][1] == "X" && // [0,X,0]
+      board[2][0] == "X") { // [X,0,0]
+        endGame = true;
+        notifyWinner();
+  }
+}
+
+function notifyWinner() {
+  $.notify({
+    // options
+    message: "Player " + player + " won.",
+  },{
+    // settings
+    newest_on_top: true,
+    type: 'success',
+    placement: {
+      from: "bottom",
+      align: "right"
+    },
+    delay: 2000,
+    timer: 1500,
+    animate: {
+      enter: 'animated slideInRight',
+      exit: 'animated fadeOutUp'
+    }
+  });
 }
 
 $(document).ready(function(){
