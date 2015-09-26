@@ -70,7 +70,7 @@ function clickHandler(cell){
 }
 
 function changePlayer(){
-  if (&& player == "X") {
+  if (player == "X") {
     player = "O";
     //add an html text: O's turn
   } else {
