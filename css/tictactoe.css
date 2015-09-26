@@ -1,24 +1,16 @@
-
-.col-centered{
-  float: none;
-  margin: 0 auto;
-}
-
 #stage {
-  margin: 0 auto;
-  margin-top: 40px;
-  width: 600px;
-  position: relative;
+  display: inline-block;
+  float: left;
 }
 
-.cell {
+.cellSelected {
   position: absolute;
   width: 200px;
   height: 200px;
-  background-color: rgba(0, 0, 0, 0.55);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
-.cell:hover {
+.cellSelected:hover {
   background-color: rgb(255, 136, 136);
 }
 
@@ -28,9 +20,10 @@
 }
 
 .example-chat {
+  display: inline-block;
+  position: relative;
   float: right;
-  width: 310px;
-  margin-top: 40px;
+  width: 300px;
   font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   border-radius: 3px;
   background-color: rgba(255, 255, 255, 0);
@@ -38,7 +31,7 @@
   overflow: auto;
   padding: 0px;
   font-size: 12px;
-  line-height: 22px;
+  line-height: 20px;
   color: #666;
 }
 
@@ -101,13 +94,13 @@
   list-style: none;
   margin: 0px;
   padding: 20px;
-  height: 500px;
+  height: 490px;
   overflow: auto;
 }
 
 .example-chat ul li {
   margin-bottom: 10px;
-  line-height: 24px;
+  line-height: 16px;
 }
 
 .example-chat ul li:last-child {

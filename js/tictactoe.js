@@ -1,7 +1,21 @@
 var stage = document.querySelector("#stage");
 
 //the 2d array that defines the board
-var board = [];
+var board = [[0,0,0],
+             [0,0,0],
+             [0,0,0]];
+
+var player;
+var endGame;
+
+var win = [[0,1,2], //0
+           [3,4,5], //1
+           [6,7,8], //2
+           [0,3,6], //3
+           [1,4,7],
+           [2,5,8],
+           [0,4,8],
+           [6,4,2]];
 
 //the size of each cell
 var SIZE = 200;
@@ -10,30 +24,38 @@ var SIZE = 200;
 var SPACE = 1;
 
 //board config
-var ROWS = 3; //user select size
-var COLUMNS = 3; //user select size
+//original
+//difficult       ROWS = board.length + 1
+//more difficult  ROWS = board[0].length + 1 etc.........
+var ROWS = board.length; //user select size
+var COLUMNS = board[0].length; //user select size
 
-for(var row = 0; row < ROWS; row++){
-    for(var column = 0; column < COLUMNS; column++){
-        //create a div HTML element called cell
-        var cell = document.createElement("div");
+function init(){
+  player ="X";
+  endGame = false;
+  for(var row = 0; row < ROWS; row++){
+      for(var column = 0; column < COLUMNS; column++){
+          //create a div HTML element called cell
+          var cellSelected = document.createElement("span");
 
-        //set its CSS class to cell
-        cell.setAttribute("class", "cell");
+          //set its CSS class to cell
+          cellSelected.setAttribute("class", "cellSelected");
+          cellSelected.setAttribute("onClick", ("setCell(" + (row+1) + "," + (column+1) + ")"));
 
-        //add the div HTML element to the stage
-        stage.appendChild(cell);
+          //add the div HTML element to the stage
+          stage.appendChild(cellSelected);
 
-        //position the cell
-        cell.style.top = row * (SIZE + SPACE) + "px";
-        cell.style.left = column * (SIZE + SPACE) + "px";
+          //position the cell
+          cellSelected.style.top = row * (SIZE + SPACE) + "px";
+          cellSelected.style.left = column * (SIZE + SPACE) + "px";
 
-        //handle click
-        cell.addEventListener("click", clickHandler, false);
-    }
+          //handle click
+          cellSelected.addEventListener("click", clickHandler, false);
+      }
+  }
 }
 
-function clickHandler(){
+function clickHandler(cell){
     this.style.backgroundColor = "rgba(236, 85, 85, 0.80)";
     $.notify({
       // options
@@ -55,6 +77,55 @@ function clickHandler(){
     });
 }
 
+function changePlayer(){
+  if (player == "X") {
+    player = "O";
+  } else {
+    player = "X";
+  }
+}
+
+function setCell(cellRow,cellColumn) {
+  console.log("Player: " + player, "Cell: " + cellRow + "," + cellColumn);
+  changePlayer();
+  board[0] = player;
+}
+
+//if x played 3 moves, check for winning play
+
+function checkState() {
+  $.each(win, function(index,value) {
+    if  ( board[win[index][0]] == board[win[index][1]] &&
+          board[win[index][0]] == board[win[index][2]] &&
+          board[win[index][0]] == board[win[index][3]]) {
+       endGame = true;
+       $.notify({
+         // options
+         message: "WIN",
+       },{
+         // settings
+         newest_on_top: true,
+         type: 'success',
+         placement: {
+           from: "bottom",
+           align: "right"
+         },
+         delay: 2000,
+         timer: 1500,
+         animate: {
+           enter: 'animated slideInRight',
+           exit: 'animated fadeOutUp'
+         }
+       });
+     }
+   });
+}
+
+$(document).ready(function(){
+  init();
+});
+
+// FIREBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASE
 // CREATE A REFERENCE TO FIREBASE
 var messagesRef = new Firebase('https://mw5padi3kor.firebaseio-demo.com/');
 
