@@ -5,23 +5,8 @@ var board = [[0,0,0],
              [0,0,0],
              [0,0,0]];
 
-//board.length is row
-//board[0].length is column
-//cell 1,3:
-//board.length 1
-//board[0].length 3
-
 var player;
 var endGame;
-
-var win = [[0,1,2], //0
-           [3,4,5], //1
-           [6,7,8], //2
-           [0,3,6], //3
-           [1,4,7],
-           [2,5,8],
-           [0,4,8],
-           [6,4,2]];
 
 //the size of each cell
 var SIZE = 200;
@@ -87,51 +72,44 @@ function setCell(cellRow,cellColumn) {
   changePlayer();
 }
 
-//if x played 3 moves, check for winning play
-// var win = [[0,1,2], //0
-//            [3,4,5], //1
-//            [6,7,8], //2
-//            [0,3,6], //3
-//            [1,4,7],
-//            [2,5,8],
-//            [0,4,8],
-//            [6,4,2]];
-
-
 function checkState() {
-  if (board[0][0] == "X" && // [X,X,X]
-      board[0][1] == "X" && // [0,0,0]
-      board[0][2] == "X" || // [0,0,0]
+  if (board[0][0] == player && // [X,X,X]
+      board[0][1] == player && // [0,0,0]
+      board[0][2] == player || // [0,0,0]
 
-      board[1][0] == "X" && // [0,0,0]
-      board[1][1] == "X" && // [X,X,X]
-      board[1][2] == "X" || // [0,0,0]
+      board[1][0] == player && // [0,0,0]
+      board[1][1] == player && // [X,X,X]
+      board[1][2] == player || // [0,0,0]
 
-      board[2][0] == "X" && // [0,0,0]
-      board[2][1] == "X" && // [0,0,0]
-      board[2][2] == "X" || // [X,X,X]
+      board[2][0] == player && // [0,0,0]
+      board[2][1] == player && // [0,0,0]
+      board[2][2] == player || // [X,X,X]
 
-      board[0][0] == "X" && // [X,0,0]
-      board[1][0] == "X" && // [X,0,0]
-      board[2][0] == "X" || // [X,0,0]
+      board[0][0] == player && // [X,0,0]
+      board[1][0] == player && // [X,0,0]
+      board[2][0] == player || // [X,0,0]
 
-      board[0][1] == "X" && // [0,X,0]
-      board[1][1] == "X" && // [0,X,0]
-      board[2][1] == "X" || // [0,X,0]
+      board[0][1] == player && // [0,X,0]
+      board[1][1] == player && // [0,X,0]
+      board[2][1] == player || // [0,X,0]
 
-      board[0][2] == "X" && // [0,0,X]
-      board[1][2] == "X" && // [0,0,X]
-      board[2][2] == "X" || // [0,0,X]
+      board[0][2] == player && // [0,0,X]
+      board[1][2] == player && // [0,0,X]
+      board[2][2] == player || // [0,0,X]
 
-      board[0][0] == "X" && // [X,0,0]
-      board[1][1] == "X" && // [0,X,0]
-      board[2][2] == "X" || // [0,0,X]
+      board[0][0] == player && // [X,0,0]
+      board[1][1] == player && // [0,X,0]
+      board[2][2] == player || // [0,0,X]
 
-      board[0][2] == "X" && // [0,0,X]
-      board[1][1] == "X" && // [0,X,0]
-      board[2][0] == "X") { // [X,0,0]
+      board[0][2] == player && // [0,0,X]
+      board[1][1] == player && // [0,X,0]
+      board[2][0] == player) { // [X,0,0]
+
         endGame = true;
         notifyWinner();
+  }
+  if (endGame) {
+    //reset
   }
 }
 
