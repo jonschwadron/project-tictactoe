@@ -1,20 +1,43 @@
+.name, .playerText, .restart {
+  display: block;
+  position: relative;
+	float:right;
+  padding: 20px 20px 20px 20px
+}
+
 #stage {
   display: inline-block;
   float: left;
 }
 
-.cellSelected {
+.cellSelected00,
+.cellSelected01,
+.cellSelected02,
+.cellSelected10,
+.cellSelected11,
+.cellSelected12,
+.cellSelected20,
+.cellSelected21,
+.cellSelected22 {
   position: absolute;
   width: 200px;
   height: 200px;
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-.cellSelected:hover {
+.cellSelected00:hover,
+.cellSelected01:hover,
+.cellSelected02:hover,
+.cellSelected10:hover,
+.cellSelected11:hover,
+.cellSelected12:hover,
+.cellSelected20:hover,
+.cellSelected21:hover,
+.cellSelected22:hover {
   background-color: rgb(209, 209, 209);
 }
 
-.example-base {
+/*.example-base {
   font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   color: #333;
 }
@@ -40,7 +63,7 @@
   background: -webkit-gradient(linear, left top, left bottom, from(#EEEEEE), to(#DDDDDD));
   background: -webkit-linear-gradient(top, #EEEEEE, #DDDDDD);
   background: linear-gradient(top, #EEEEEE, #DDDDDD);
-  border-radius: 3px 3px 0px 0px;
+  border-radius: 3px 3px 0 0;
   border-bottom: 1px solid #CCC;
   line-height: 24px;
   font-size: 12px;
@@ -53,7 +76,7 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   border-radius: 3px;
-  padding: 0px 10px;
+  padding: 0 10px;
   height: 30px;
   font-size: 14px;
   width: 100%;
@@ -92,7 +115,7 @@
 
 .example-chat ul {
   list-style: none;
-  margin: 0px;
+  margin: 0;
   padding: 20px;
   height: 490px;
   overflow: auto;
@@ -104,7 +127,7 @@
 }
 
 .example-chat ul li:last-child {
-  margin: 0px;
+  margin: 0;
 }
 
 .example-chat ul .example-chat-username {
@@ -119,4 +142,4 @@
 .example-chat footer input {
   border: 1px solid #ced3db;
   height: 40px;
-}
+}*/

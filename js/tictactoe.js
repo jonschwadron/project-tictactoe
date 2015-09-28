@@ -4,54 +4,34 @@ var stage = document.querySelector("#stage");
 var board = [[0,0,0],
              [0,0,0],
              [0,0,0]];
-
 var player;
 var endGame;
+var moves;
 
-//the size of each cell
-var SIZE = 200;
-
-//the space between each cell
-var SPACE = 1;
-
-//board config
-//original
-//difficult       ROWS = board.length + 1
-//more difficult  ROWS = board[0].length + 1 etc.........
-var ROWS = board.length; //user select size
-var COLUMNS = board[0].length; //user select size
+// var ROWS = board.length; //user select size
+// var COLUMNS = board[0].length; //user select size
 
 function init(){
   player ="X";
+  moves = 9;
   endGame = false;
-  for(var row = 0; row < ROWS; row++){
-    for(var column = 0; column < COLUMNS; column++){
+  for(var row = 0; row < board.length; row++){
+    for(var column = 0; column < board[0].length; column++){
         //create a div HTML element called cell
         var cellSelected = document.createElement("span");
 
         //set its CSS class to cell
-        cellSelected.setAttribute("class", "cellSelected");
-        cellSelected.setAttribute("onClick", ("setCell(" + (row+1) + "," + (column+1) + ")"));
+        cellSelected.setAttribute("class", "cellSelected cellSelected" + row + column);
+        cellSelected.setAttribute("onClick", ("setCell(" + (row) + "," + (column) + ")"));
 
         //add the div HTML element to the stage
         stage.appendChild(cellSelected);
 
         //position the cell
-        cellSelected.style.top = row * (SIZE + SPACE) + "px";
-        cellSelected.style.left = column * (SIZE + SPACE) + "px";
-
-        //handle click
-        cellSelected.addEventListener("click", clickHandler, false);
+        cellSelected.style.top = row * (201) + "px";
+        cellSelected.style.left = column * (201) + "px";
     }
   }
-}
-
-function clickHandler(cell){
-    if (player == "X") {
-      this.style.backgroundColor = "rgba(95, 128, 226, 0.8)";
-    } else if (player == "O") {
-      this.style.backgroundColor = "rgba(236, 85, 85, 0.80)";
-    }
 }
 
 function changePlayer(){
@@ -65,58 +45,89 @@ function changePlayer(){
 }
 
 function setCell(cellRow,cellColumn) {
-  board[cellRow-1][cellColumn-1] = player;
+
+  var row = cellRow;
+  var col = cellColumn;
+  if ((board[row][col] != "X") && (board[row][col] != "O")) {
+    if (player == "X") {
+      board[row][col] = player;
+      $(".cellSelected"+row+col).css("background-color", "rgba(95, 128, 226, 0.80)");
+      checkState();
+      moves -= 1;
+      changePlayer();
+      renderText();
+    } else if (player == "O") {
+      board[row][col] = player;
+      $(".cellSelected"+row+col).css("background-color", "rgba(236, 85, 85, 0.80)");
+      checkState();
+      moves -= 1;
+      changePlayer();
+      renderText();
+    }
+    else {
+      console.log("this cell is already used.");
+    }
+  }
+
   console.log(board);
-  console.log("Player: " + player, "Cell: " + cellRow + "," + cellColumn);
+  console.log("Player: " + player, "Cell: " + row + "," + col);
   checkState();
-  changePlayer();
+
+
+
 }
 
 function checkState() {
-  if (board[0][0] == player && // [X,X,X]
-      board[0][1] == player && // [0,0,0]
-      board[0][2] == player || // [0,0,0]
+  console.log(moves);
+    if (board[0][0] == player && // [X,X,X]
+        board[0][1] == player && // [0,0,0]
+        board[0][2] == player || // [0,0,0]
 
-      board[1][0] == player && // [0,0,0]
-      board[1][1] == player && // [X,X,X]
-      board[1][2] == player || // [0,0,0]
+        board[1][0] == player && // [0,0,0]
+        board[1][1] == player && // [X,X,X]
+        board[1][2] == player || // [0,0,0]
 
-      board[2][0] == player && // [0,0,0]
-      board[2][1] == player && // [0,0,0]
-      board[2][2] == player || // [X,X,X]
+        board[2][0] == player && // [0,0,0]
+        board[2][1] == player && // [0,0,0]
+        board[2][2] == player || // [X,X,X]
 
-      board[0][0] == player && // [X,0,0]
-      board[1][0] == player && // [X,0,0]
-      board[2][0] == player || // [X,0,0]
+        board[0][0] == player && // [X,0,0]
+        board[1][0] == player && // [X,0,0]
+        board[2][0] == player || // [X,0,0]
 
-      board[0][1] == player && // [0,X,0]
-      board[1][1] == player && // [0,X,0]
-      board[2][1] == player || // [0,X,0]
+        board[0][1] == player && // [0,X,0]
+        board[1][1] == player && // [0,X,0]
+        board[2][1] == player || // [0,X,0]
 
-      board[0][2] == player && // [0,0,X]
-      board[1][2] == player && // [0,0,X]
-      board[2][2] == player || // [0,0,X]
+        board[0][2] == player && // [0,0,X]
+        board[1][2] == player && // [0,0,X]
+        board[2][2] == player || // [0,0,X]
 
-      board[0][0] == player && // [X,0,0]
-      board[1][1] == player && // [0,X,0]
-      board[2][2] == player || // [0,0,X]
+        board[0][0] == player && // [X,0,0]
+        board[1][1] == player && // [0,X,0]
+        board[2][2] == player || // [0,0,X]
 
-      board[0][2] == player && // [0,0,X]
-      board[1][1] == player && // [0,X,0]
-      board[2][0] == player) { // [X,0,0]
+        board[0][2] == player && // [0,0,X]
+        board[1][1] == player && // [0,X,0]
+        board[2][0] == player) { // [X,0,0]
 
         endGame = true;
         notifyWinner();
-  }
-  if (endGame) {
-    //reset
-  }
+        $('.playerText').text('Player ' + player + ' wins');
+    } else if (moves === 0) {
+      console.log("game over.");
+      $('.playerText').text('Tied.');
+    }
+}
+
+function renderText(){
+  $('.playerText').text('Player: ' + player + "'s turn.")
 }
 
 function notifyWinner() {
   $.notify({
     // options
-    message: "Player " + player + " won.",
+    message: "Player " + player + " wins!",
   },{
     // settings
     newest_on_top: true,
@@ -137,45 +148,45 @@ function notifyWinner() {
 $(document).ready(function(){
   init();
 });
-
-// FIREBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASE
-// CREATE A REFERENCE TO FIREBASE
-var messagesRef = new Firebase('https://mw5padi3kor.firebaseio-demo.com/');
-
-// REGISTER DOM ELEMENTS
-var messageField = $('#messageInput');
-var nameField = $('#nameInput');
-var messageList = $('#example-messages');
-
-// LISTEN FOR KEYPRESS EVENT
-messageField.keypress(function (e) {
-  if (e.keyCode == 13) {
-    //FIELD VALUES
-    var username = nameField.val();
-    var message = messageField.val();
-
-    //SAVE DATA TO FIREBASE AND EMPTY FIELD
-    messagesRef.push({name:username, text:message});
-    messageField.val('');
-  }
-});
-
-// Add a callback that is triggered for each chat message.
-messagesRef.limitToLast(10).on('child_added', function (snapshot) {
-  //GET DATA
-  var data = snapshot.val();
-  var username = data.name || "anonymous";
-  var message = data.text;
-
-  //CREATE ELEMENTS MESSAGE & SANITIZE TEXT
-  var messageElement = $("<li>");
-  var nameElement = $("<strong class='example-chat-username'></strong>")
-  nameElement.text(username);
-  messageElement.text(message).prepend(nameElement);
-
-  //ADD MESSAGE
-  messageList.append(messageElement);
-
-  //SCROLL TO BOTTOM OF MESSAGE LIST
-  messageList[0].scrollTop = messageList[0].scrollHeight;
-});
+//
+// // FIREBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASE
+// // CREATE A REFERENCE TO FIREBASE
+// var messagesRef = new Firebase('https://mw5padi3kor.firebaseio-demo.com/');
+//
+// // REGISTER DOM ELEMENTS
+// var messageField = $('#messageInput');
+// var nameField = $('#nameInput');
+// var messageList = $('#example-messages');
+//
+// // LISTEN FOR KEYPRESS EVENT
+// messageField.keypress(function (e) {
+//   if (e.keyCode == 13) {
+//     //FIELD VALUES
+//     var username = nameField.val();
+//     var message = messageField.val();
+//
+//     //SAVE DATA TO FIREBASE AND EMPTY FIELD
+//     messagesRef.push({name:username, text:message});
+//     messageField.val('');
+//   }
+// });
+//
+// // Add a callback that is triggered for each chat message.
+// messagesRef.limitToLast(10).on('child_added', function (snapshot) {
+//   //GET DATA
+//   var data = snapshot.val();
+//   var username = data.name || "anonymous";
+//   var message = data.text;
+//
+//   //CREATE ELEMENTS MESSAGE & SANITIZE TEXT
+//   var messageElement = $("<li>");
+//   var nameElement = $("<strong class='example-chat-username'></strong>");
+//   nameElement.text(username);
+//   messageElement.text(message).prepend(nameElement);
+//
+//   //ADD MESSAGE
+//   messageList.append(messageElement);
+//
+//   //SCROLL TO BOTTOM OF MESSAGE LIST
+//   messageList[0].scrollTop = messageList[0].scrollHeight;
+// });
