@@ -1,13 +1,17 @@
-.name, .playerText, .restart {
-  display: block;
-  position: relative;
-	float:right;
-  padding: 20px 20px 20px 20px
+.name, .messageText, .restart {
+  font-size: 14px;
+	float: left;
+  padding: 20px 20px 20px 20px;
 }
 
 #stage {
   display: inline-block;
   float: left;
+}
+
+.cellSelected {
+  top: 603px;
+  left: 603px;
 }
 
 .cellSelected00,

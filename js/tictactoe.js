@@ -12,6 +12,9 @@ var moves;
 // var COLUMNS = board[0].length; //user select size
 
 function init(){
+  board = [[0,0,0],
+           [0,0,0],
+           [0,0,0]];
   player ="X";
   moves = 9;
   endGame = false;
@@ -37,15 +40,12 @@ function init(){
 function changePlayer(){
   if (player == "X") {
     player = "O";
-    //add an html text: O's turn
   } else {
     player = "X";
-    //add an html text: X's turn
   }
 }
 
 function setCell(cellRow,cellColumn) {
-
   var row = cellRow;
   var col = cellColumn;
   if ((board[row][col] != "X") && (board[row][col] != "O")) {
@@ -65,16 +65,10 @@ function setCell(cellRow,cellColumn) {
       renderText();
     }
     else {
-      console.log("this cell is already used.");
+      console.log("wtf");
     }
   }
-
-  console.log(board);
-  console.log("Player: " + player, "Cell: " + row + "," + col);
   checkState();
-
-
-
 }
 
 function checkState() {
@@ -112,26 +106,42 @@ function checkState() {
         board[2][0] == player) { // [X,0,0]
 
         endGame = true;
+        $('.messageText').text('Player ' + player + ' wins');
         notifyWinner();
-        $('.playerText').text('Player ' + player + ' wins');
     } else if (moves === 0) {
-      console.log("game over.");
-      $('.playerText').text('Tied.');
+      $('.messageText').text('Tied!');
     }
 }
 
 function renderText(){
-  $('.playerText').text('Player: ' + player + "'s turn.")
+  $('.messageText').text('Player: ' + player + "'s turn...")
 }
 
 function notifyWinner() {
   $.notify({
-    // options
     message: "Player " + player + " wins!",
   },{
-    // settings
     newest_on_top: true,
     type: 'success',
+    placement: {
+      from: "bottom",
+      align: "right"
+    },
+    delay: 2000,
+    timer: 1500,
+    animate: {
+      enter: 'animated slideInRight',
+      exit: 'animated fadeOutUp'
+    }
+  });
+}
+
+function notifyError() {
+  $.notify({
+    message: "That cell is taken.",
+  },{
+    newest_on_top: true,
+    type: 'danger',
     placement: {
       from: "bottom",
       align: "right"

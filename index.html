@@ -55,12 +55,8 @@
   <section id="tictactoe">
     <div class="container">
       <div class="row">
-        <div class="col-sm-10" id="game-layout">
+        <div class="col-sm-9" id="game-layout">
           <div id="stage"></div>
-
-          <div class='name'>
-            <input type='text' id='nameInput' placeholder="Name">
-          </div>
           <!-- <div class="example-chat">
             <div class='example-chat-toolbar'>
               <input type='text' id='nameInput' placeholder="Enter your favorite character">
@@ -71,15 +67,10 @@
             </footer>
           </div> -->
         </div>
-        <div class="col-sm-2">
-          <div class="playerText">
-            Player X's Turn.
-          </div>
-          <div>
-            <button class="restart" onClick="init()">
-              Restart
-            </button>
-          </div>
+        <div class="col-sm-3">
+          <div class="messageText">Player X's Turn.</div>
+          <div class='name'><input type='text' id='nameInput' placeholder="Name"></div>
+          <div><button class="restart" onClick="init()">New Game</button></div>
         </div>
       </div>
 
