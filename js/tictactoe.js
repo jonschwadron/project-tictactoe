@@ -1,23 +1,51 @@
 var stage = document.querySelector("#stage");
 
-//the 2d array that defines the board
 var board = [[0,0,0],
              [0,0,0],
              [0,0,0]];
 var player;
+var playerBlue;
+var playerRed;
 var endGame;
 var moves;
-
-// var ROWS = board.length; //user select size
-// var COLUMNS = board[0].length; //user select size
+var blueScore;
+var redScore;
 
 function init(){
   board = [[0,0,0],
            [0,0,0],
            [0,0,0]];
   player ="X";
+  blueScore = 0;
+  redScore = 0;
   moves = 9;
   endGame = false;
+  getNames();
+  clearBoard();
+  renderBoard();
+  displayStats();
+}
+
+function getNames() {
+  //retrieve names
+  playerBlueName = document.getElementById("player-blue-name");
+  playerRedName = document.getElementById("player-red-name");
+}
+
+function displayStats() {
+  //hide form
+  $(".form-group").css("display","none");
+  //display names and score
+  $(".display-stats").css("display","block");
+  $(".display-p1-name").text(playerBlueName.value + " ");
+  $(".display-p2-name").text(playerRedName.value + " ");
+}
+
+function clearBoard() {
+  // reset
+}
+
+function renderBoard () {
   for(var row = 0; row < board.length; row++){
     for(var column = 0; column < board[0].length; column++){
         //create a div HTML element called cell
@@ -65,7 +93,7 @@ function setCell(cellRow,cellColumn) {
       renderText();
     }
     else {
-      console.log("wtf");
+      console.log("wtf?");
     }
   }
   checkState();
@@ -107,6 +135,13 @@ function checkState() {
 
         endGame = true;
         $('.messageText').text('Player ' + player + ' wins');
+        if (player == "X") {
+          blueScore += 1;
+          $(".blueScore").text(blueScore.value);
+        } else {
+          redScore += 1;
+          $(".redScore").text(redScore.value);
+        }
         notifyWinner();
     } else if (moves === 0) {
       $('.messageText').text('Tied!');
@@ -154,49 +189,3 @@ function notifyError() {
     }
   });
 }
-
-$(document).ready(function(){
-  init();
-});
-//
-// // FIREBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASE
-// // CREATE A REFERENCE TO FIREBASE
-// var messagesRef = new Firebase('https://mw5padi3kor.firebaseio-demo.com/');
-//
-// // REGISTER DOM ELEMENTS
-// var messageField = $('#messageInput');
-// var nameField = $('#nameInput');
-// var messageList = $('#example-messages');
-//
-// // LISTEN FOR KEYPRESS EVENT
-// messageField.keypress(function (e) {
-//   if (e.keyCode == 13) {
-//     //FIELD VALUES
-//     var username = nameField.val();
-//     var message = messageField.val();
-//
-//     //SAVE DATA TO FIREBASE AND EMPTY FIELD
-//     messagesRef.push({name:username, text:message});
-//     messageField.val('');
-//   }
-// });
-//
-// // Add a callback that is triggered for each chat message.
-// messagesRef.limitToLast(10).on('child_added', function (snapshot) {
-//   //GET DATA
-//   var data = snapshot.val();
-//   var username = data.name || "anonymous";
-//   var message = data.text;
-//
-//   //CREATE ELEMENTS MESSAGE & SANITIZE TEXT
-//   var messageElement = $("<li>");
-//   var nameElement = $("<strong class='example-chat-username'></strong>");
-//   nameElement.text(username);
-//   messageElement.text(message).prepend(nameElement);
-//
-//   //ADD MESSAGE
-//   messageList.append(messageElement);
-//
-//   //SCROLL TO BOTTOM OF MESSAGE LIST
-//   messageList[0].scrollTop = messageList[0].scrollHeight;
-// });
